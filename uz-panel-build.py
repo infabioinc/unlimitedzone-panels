@@ -169,6 +169,21 @@ footer .logo img{height:26px}
 .storecard dl{margin:18px 0 0;display:grid;grid-template-columns:auto 1fr;gap:8px 18px;font-size:14.5px}
 .storecard dt{color:var(--ink-3);font-weight:700}.storecard dd{margin:0;font-weight:600}
 .note{font-size:13px;color:var(--ink-3);margin-top:16px}
+/* apply modal */
+.modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(15,12,22,.6);backdrop-filter:blur(6px)}
+.modal.open{display:flex}
+.modal .box{width:min(460px,100%);background:var(--card);color:var(--ink);border-radius:26px;padding:30px 28px;box-shadow:var(--shadow);position:relative}
+.modal .close{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;background:var(--paper-2);color:var(--ink-2);font-size:18px;display:grid;place-items:center}
+.modal h2{font-size:26px;font-weight:900;margin-bottom:6px}
+.modal p.sub{color:var(--ink-2);font-size:14.5px;margin:0 0 20px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.field input,.field select{font:inherit;font-size:15px;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--paper-2);color:var(--ink);width:100%}
+.field input:focus,.field select:focus{outline:2px solid var(--pink);outline-offset:0;border-color:transparent}
+.modal .btn{width:100%;padding:15px;margin-top:6px}
+.modal .fine{font-size:12px;color:var(--ink-3);margin:12px 0 0;text-align:center}
+.modal .done{text-align:center;padding:16px 0}
+.modal .done .tick{width:64px;height:64px;border-radius:50%;background:var(--grad-btn);color:#fff;display:grid;place-items:center;margin:0 auto 16px;font-size:30px;font-weight:900}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--block);color:#fff;padding:10px 16px;border-radius:999px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s}
 .toast.show{opacity:1}
 
@@ -185,6 +200,22 @@ footer .logo img{height:26px}
 
 <div id="app"></div>
 <div class="toast" id="toast"></div>
+<div class="modal" id="applyModal" role="dialog" aria-modal="true" aria-labelledby="applyTitle">
+  <div class="box">
+    <button class="close" id="applyClose" aria-label="Close">×</button>
+    <form id="applyForm" novalidate>
+      <h2 id="applyTitle">Become a creator</h2>
+      <p class="sub">Tell us who you are. We'll send your store code and your page within 24 hours.</p>
+      <div class="field"><label for="f-name">Full name</label><input id="f-name" name="name" type="text" required autocomplete="name" placeholder="Riya Sharma"></div>
+      <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" required autocomplete="email" placeholder="you@example.com"></div>
+      <div class="field"><label for="f-phone">Phone number</label><input id="f-phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel" placeholder="+91 98xxx xxxxx"></div>
+      <div class="field"><label for="f-occ">Occupation</label><select id="f-occ" name="occupation" required><option value="">Select one</option><option>Mother</option><option>Father</option><option>Student</option><option>Teenager</option><option>Working professional</option><option>Content creator</option><option>Business owner</option><option>Other</option></select></div>
+      <button class="btn primary" type="submit">Apply Now — It's Free</button>
+      <p class="fine">No follower minimum. We'll reach you on WhatsApp or email.</p>
+    </form>
+    <div class="done" id="applyDone" hidden><div class="tick">✓</div><h2>You're in the queue!</h2><p class="sub">Thanks, <b id="doneName"></b>. The Unlimited Zone team will reach out within 24 hours with your store code.</p><button class="btn primary" id="applyDoneClose" type="button">Done</button></div>
+  </div>
+</div>
 
 <script>
 const IMG = __IMG__;
@@ -221,7 +252,7 @@ const I={
   people:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2 20a7 7 0 0 1 14 0M16 4a3.5 3.5 0 0 1 0 7M22 20a7 7 0 0 0-5-6.7"/></svg>',
 };
 const logo=`<a class="logo" href="#/"><img class="light" src="${IMG.logo}" alt="Unlimited Zone — Complete Family Wear"><img class="dark" src="${IMG.logoWhite}" alt="Unlimited Zone — Complete Family Wear"></a>`;
-const nav=()=>`<div class="nav"><div class="wrap">${logo}<div class="nav-actions"><button class="btn theme" id="themeBtn" aria-label="Switch light / dark">☀︎ / ☾</button><a class="btn ghost" href="#/" data-toast="Creator login opens here once the panel is live">Login</a><a class="btn primary" href="#/" data-toast="Application form opens here once the panel is live">Join Now</a></div></div></div>`;
+const nav=()=>`<div class="nav"><div class="wrap">${logo}<div class="nav-actions"><button class="btn theme" id="themeBtn" aria-label="Switch light / dark">☀︎ / ☾</button><a class="btn ghost" href="#/" data-toast="Creator login opens here once the panel is live">Login</a><a class="btn primary" href="#/" data-apply>Join Now</a></div></div></div>`;
 const footer=()=>`<footer><div class="wrap">${logo}<span>© 2026 Unlimited Zone · A unit of Shyam Retail Stores. All rights reserved.</span><div class="links"><a href="#/">Privacy</a><a href="#/">Terms</a><a href="#/">Support</a><span class="credits">Site by <img src="${IMG.credits}" alt="Fabulous Media · GO"></span></div></div></footer>`;
 
 const AVS=["momkids","kabir","sage","family","festivestore"];
@@ -231,7 +262,7 @@ function landing(){
     <div class="pill">${I.star} Unlimited Zone Creator Programme · Jaipur first</div>
     <h1>Turn Your Influence Into <span class="gtext">Store Footfall.</span></h1>
     <p class="lede">Partner with Unlimited Zone — 100+ brands for men, women and kids under one roof — and get your own store code. <b>The more people shop with your code, the more you earn.</b> Every visit is tracked at the billing counter.</p>
-    <div class="actions"><a class="btn primary" href="#/" data-toast="Application form opens here once the panel is live">Become a Creator ${I.arrow}</a><a class="btn" href="#/creator/riya-sharma">See a creator page ${I.arrow}</a></div>
+    <div class="actions"><a class="btn primary" href="#/" data-apply>Become a Creator ${I.arrow}</a><a class="btn" href="#/creator/riya-sharma">See a creator page ${I.arrow}</a></div>
     <div class="anyone"><div class="eyebrow">You can be anyone</div>
       <div class="chips">${[["Mothers","momkids"],["Fathers","family"],["Kids","festivestore"],["Students","sage"],["Teenagers","kabir"]].map(([t,k])=>`<span class="chip"><span class="av"><img src="${IMG[k]}" alt=""></span>${t}</span>`).join("")}</div>
     </div>
@@ -266,7 +297,7 @@ function landing(){
   <section class="cta-wrap"><div class="wrap"><div class="cta">
     <h2>Ready to start earning?</h2>
     <p>Join the Unlimited Zone creators in Jaipur. It takes less than 2 minutes to apply — no follower minimum.</p>
-    <a class="btn" href="#/" data-toast="Application form opens here once the panel is live">Apply Now — It's Free ${I.arrow}</a>
+    <a class="btn" href="#/" data-apply>Apply Now — It's Free ${I.arrow}</a>
   </div></div></section>
   ${footer()}`;
 }
@@ -341,6 +372,22 @@ document.addEventListener("click",(e)=>{
   if(e.target.closest("#themeBtn")){ const cur=document.documentElement.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"); const next=cur==="dark"?"light":"dark"; applyTheme(next); try{localStorage.setItem("uz-theme",next);}catch(_){} return; }
   const el=e.target.closest("[data-toast],[data-copy]"); if(!el) return; e.preventDefault();
   if(el.dataset.copy){ try{navigator.clipboard.writeText(el.dataset.copy);}catch(_){} toast(`Copied ${el.dataset.copy}`); } else toast(el.dataset.toast);
+});
+const modal=$("#applyModal"), form=$("#applyForm"), done=$("#applyDone");
+function openApply(){ form.hidden=false; done.hidden=true; form.reset(); modal.classList.add("open"); setTimeout(()=>$("#f-name").focus(),50); }
+function closeApply(){ modal.classList.remove("open"); }
+document.addEventListener("click",(e)=>{ const a=e.target.closest("[data-apply]"); if(a){ e.preventDefault(); openApply(); } if(e.target.closest("#applyClose,#applyDoneClose")||e.target===modal) closeApply(); });
+document.addEventListener("keydown",(e)=>{ if(e.key==="Escape") closeApply(); });
+form.addEventListener("submit",(e)=>{
+  e.preventDefault();
+  const d=Object.fromEntries(new FormData(form).entries());
+  const bad=[...form.querySelectorAll("input,select")].find(i=>!i.checkValidity());
+  if(bad){ bad.focus(); toast(bad.name==="email"?"Please enter a valid email":bad.name==="phone"?"Please enter your phone number":"Please fill in "+bad.name); return; }
+  const list=(()=>{try{return JSON.parse(localStorage.getItem("uz-applications")||"[]")}catch(_){return []}})();
+  list.push(Object.assign({at:new Date().toISOString(),page:location.hash},d));
+  try{ localStorage.setItem("uz-applications",JSON.stringify(list)); }catch(_){}
+  window.dispatchEvent(new CustomEvent("uz:apply",{detail:d}));
+  $("#doneName").textContent=d.name.split(" ")[0]; form.hidden=true; done.hidden=false;
 });
 window.addEventListener("hashchange",render); render();
 </script>
