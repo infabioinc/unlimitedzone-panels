@@ -236,14 +236,17 @@ footer .logo img{height:26px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.aurora i,.btn.primary,.gtext,.phone,.portrait::after,.cta::before{animation:none!important}.rv{opacity:1;transform:none}}
 
-/* credits */
-footer .credits{display:flex;align-items:center;gap:10px;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-left:18px;padding-left:18px;border-left:1px solid var(--line)}
-footer .credits a{display:inline-flex;align-items:center;opacity:.85;transition:opacity .2s,transform .2s}
-footer .credits a:hover{opacity:1;transform:translateY(-1px)}
-footer .credits img{height:22px;width:auto;display:block;border-radius:3px}
-footer .credits .go .dk{display:none}
-:root[data-theme="dark"] footer .credits .go .lt{display:none}:root[data-theme="dark"] footer .credits .go .dk{display:block}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) footer .credits .go .lt{display:none}:root:not([data-theme="light"]) footer .credits .go .dk{display:block}}
+/* site credit — official Fabulous Media / GoCommercially block */
+footer .poweredBy{margin-left:18px}
+.poweredBy{display:flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid rgba(255,255,255,.2);border-radius:10px;width:fit-content;background:rgba(255,255,255,.03);backdrop-filter:blur(10px)}
+.creditLogo{display:flex;align-items:center;justify-content:center;background:#fff;padding:4px;border-radius:6px;opacity:.6;transition:.35s ease}
+.creditLogo:hover{opacity:1;transform:translateY(-2px);box-shadow:0 0 15px rgba(253,181,20,.5)}
+.creditLogo img{height:12px;width:auto;display:block}
+.divider{width:1px;height:12px;background:rgba(255,255,255,.2)}
+@media (max-width:768px){.poweredBy{padding:6px 10px;gap:8px}.creditLogo img{height:10px}}
+:root:not([data-theme="dark"]) .poweredBy{border-color:var(--line);background:rgba(0,0,0,.02)}
+:root:not([data-theme="dark"]) .divider{background:var(--line)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .poweredBy{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.03)}:root:not([data-theme="light"]) .divider{background:rgba(255,255,255,.2)}}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--block);color:#fff;padding:10px 16px;border-radius:999px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s}
 .toast.show{opacity:1}
 
@@ -313,7 +316,7 @@ const I={
 };
 const logo=`<a class="logo" href="#/"><img class="light" src="${IMG.logo}" alt="Unlimited Zone — Complete Family Wear"><img class="dark" src="${IMG.logoWhite}" alt="Unlimited Zone — Complete Family Wear"></a>`;
 const nav=()=>`<div class="nav"><div class="wrap">${logo}<div class="nav-actions"><button class="btn theme" id="themeBtn" aria-label="Switch light / dark">☀︎ / ☾</button><a class="btn ghost" href="#/" data-toast="Creator login opens here once the panel is live">Login</a><a class="btn primary" href="#/" data-apply>Join Now</a></div></div></div>`;
-const footer=()=>`<footer><div class="wrap">${logo}<span>© 2026 Unlimited Zone · A unit of Shyam Retail Stores. All rights reserved.</span><div class="links"><a href="#/">Privacy</a><a href="#/">Terms</a><a href="#/">Support</a><span class="credits">Site by <a href="https://fabulousmedia.in" target="_blank" rel="noopener" title="Fabulous Media"><img src="${IMG.fmLogo}" alt="Fabulous Media"></a><a class="go" href="https://gocommercially.com" target="_blank" rel="noopener" title="GoCommercially"><img class="lt" src="${IMG.goLogo}" alt="GoCommercially"><img class="dk" src="${IMG.goLogoWhite}" alt=""></a></span></div></div></footer>`;
+const footer=()=>`<footer><div class="wrap">${logo}<span>© 2026 Unlimited Zone · A unit of Shyam Retail Stores. All rights reserved.</span><div class="links"><a href="#/">Privacy</a><a href="#/">Terms</a><a href="#/">Support</a><div class="poweredBy" title="Site credit"><a href="https://play.fabulousmedia.in" target="_blank" rel="noopener noreferrer" aria-label="FabulousMedia" class="creditLogo"><img src="https://play.fabulousmedia.in/sitecredit/images/fabulousmedia.svg" alt="FabulousMedia"></a><div class="divider"></div><a href="https://gocommercially.com" target="_blank" rel="noopener noreferrer" aria-label="GoCommercially" class="creditLogo"><img src="https://play.fabulousmedia.in/sitecredit/images/gocommercially.svg" alt="GoCommercially"></a></div></div></div></footer>`;
 
 const AVS=["momkids","kabir","sage","family","festivestore"];
 function landing(){
