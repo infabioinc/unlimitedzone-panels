@@ -300,7 +300,7 @@ footer .poweredBy{margin-left:18px}
 </div>
 
 <script>
-const IMG = __IMG__;
+window.IMG = __IMG__; const IMG = window.IMG;
 const CREATORS = [
   { slug:"riya-sharma", name:"Riya Sharma", type:"Mom & family creator", store:"Jaipur", date:"September 13, 2026", day:"Saturday", time:"02:00 PM", code:"UZ-RIYA", photo:"festivenight", avatar:"momkids",
     picks:[["momkids","Kids Corner","Everything for the little ones"],["festivestore","Family Fashion Weekend","The whole family, one bill"],["family","Puma kids' sneakers","Store-only offer with my code"]],
@@ -335,7 +335,7 @@ const I={
 };
 const logo=`<a class="logo" href="#/"><img class="light" src="${IMG.logo}" alt="Unlimited Zone — Complete Family Wear"><img class="dark" src="${IMG.logoWhite}" alt="Unlimited Zone — Complete Family Wear"></a>`;
 const nav=()=>`<div class="nav"><div class="wrap">${logo}<div class="nav-actions"><button class="btn theme" id="themeBtn" aria-label="Switch light / dark">☀︎ / ☾</button><a class="btn ghost" href="#/" data-toast="Creator login opens here once the panel is live">Login</a><a class="btn primary" href="#/" data-apply>Join Now</a></div></div></div>`;
-const footer=()=>`<footer><div class="wrap">${logo}<span>© 2026 Unlimited Zone · A unit of Shyam Retail Stores. All rights reserved.</span><div class="links"><a href="#/">Privacy</a><a href="#/">Terms</a><a href="#/">Support</a><div class="poweredBy" title="Site credit"><a href="https://play.fabulousmedia.in" target="_blank" rel="noopener noreferrer" aria-label="FabulousMedia" class="creditLogo"><img src="https://play.fabulousmedia.in/sitecredit/images/fabulousmedia.svg" alt="FabulousMedia"></a><div class="divider"></div><a href="https://gocommercially.com" target="_blank" rel="noopener noreferrer" aria-label="GoCommercially" class="creditLogo"><img src="https://play.fabulousmedia.in/sitecredit/images/gocommercially.svg" alt="GoCommercially"></a></div></div></div></footer>`;
+const footer=()=>`<footer><div class="wrap">${logo}<span>© 2026 Unlimited Zone · A unit of Shyam Retail Stores. All rights reserved.</span><div class="links"><a href="#/">Privacy</a><a href="#/">Terms</a><a href="#/">Support</a><div class="poweredBy" title="Site credit"><a href="https://play.fabulousmedia.in" target="_blank" rel="noopener noreferrer" aria-label="FabulousMedia" class="creditLogo"><img src="https://play.fabulousmedia.in/sitecredit/images/fabulousmedia.svg" alt="FabulousMedia" onerror="this.onerror=null;this.src=IMG.fmCredit"></a><div class="divider"></div><a href="https://gocommercially.com" target="_blank" rel="noopener noreferrer" aria-label="GoCommercially" class="creditLogo"><img src="https://play.fabulousmedia.in/sitecredit/images/gocommercially.svg" alt="GoCommercially" onerror="this.onerror=null;this.src=IMG.goCredit"></a></div></div></div></footer>`;
 
 const AVS=["momkids","kabir","sage","family","festivestore"];
 function landing(){
@@ -446,6 +446,7 @@ function render(){
   $("#app").innerHTML=c?creatorPage(c):landing();
   document.title=c?`${c.name} × Unlimited Zone`:"Unlimited Zone Creator Panel";
   window.scrollTo(0,0);
+  setTimeout(()=>{document.querySelectorAll(".poweredBy img").forEach(i=>{ if(!(i.complete&&i.naturalWidth>0)){ i.src=i.alt==="FabulousMedia"?IMG.fmCredit:IMG.goCredit; } });},1800);
   const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}})},{threshold:.15});
   document.querySelectorAll(".rv").forEach(el=>io.observe(el));
   document.querySelectorAll(".stat b").forEach(b=>{const m=b.textContent.match(/^(\d+)(.*)$/); if(!m) return; const n=+m[1], suf=m[2]; let t0=null; const step=(t)=>{if(!t0)t0=t; const k=Math.min(1,(t-t0)/900); b.textContent=Math.round(n*(1-Math.pow(1-k,3)))+suf; if(k<1) requestAnimationFrame(step);}; requestAnimationFrame(step);});
