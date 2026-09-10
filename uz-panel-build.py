@@ -103,8 +103,6 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--ink-3);f
 footer .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px}
 footer .links{display:flex;gap:18px;justify-content:flex-end;align-items:center}
 footer .logo img{height:26px}
-.credits{display:flex;align-items:center;gap:6px;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-left:18px;padding-left:18px;border-left:1px solid var(--line)}
-.credits img{height:18px;width:auto;border-radius:5px}
 
 /* creator page */
 .cp{position:relative;color:#fff;background:var(--block) center/cover no-repeat;overflow:hidden}
@@ -184,6 +182,68 @@ footer .logo img{height:26px}
 .modal .fine{font-size:12px;color:var(--ink-3);margin:12px 0 0;text-align:center}
 .modal .done{text-align:center;padding:16px 0}
 .modal .done .tick{width:64px;height:64px;border-radius:50%;background:var(--grad-btn);color:#fff;display:grid;place-items:center;margin:0 auto 16px;font-size:30px;font-weight:900}
+/* ===== premium layer: aurora bg, glass, micro-animations ===== */
+.aurora{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.aurora i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;animation:drift 18s ease-in-out infinite alternate;will-change:transform}
+.aurora i:nth-child(1){width:46vw;height:46vw;left:-10vw;top:-14vw;background:radial-gradient(circle,#ff2e72,transparent 65%)}
+.aurora i:nth-child(2){width:40vw;height:40vw;right:-8vw;top:-6vw;background:radial-gradient(circle,#7a3cf5,transparent 65%);animation-delay:-6s;animation-duration:22s}
+.aurora i:nth-child(3){width:34vw;height:34vw;left:30vw;bottom:-18vw;background:radial-gradient(circle,#ffc43d,transparent 65%);animation-delay:-11s;animation-duration:26s;opacity:.35}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.06;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+:root[data-theme="dark"] .grain{mix-blend-mode:screen;opacity:.08}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .grain{mix-blend-mode:screen;opacity:.08}}
+@keyframes drift{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(6vw,4vw,0) scale(1.15)}}
+.hero,.why{position:relative;isolation:isolate}
+.hero>.wrap,.why>.wrap{position:relative;z-index:1}
+.hero.has-bg{background:var(--block) center/cover no-repeat;color:#fff}
+.hero.has-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,12,22,.55),rgba(15,12,22,.85))}
+.hero.has-bg .wrap{z-index:2}.hero.has-bg h1,.hero.has-bg .lede,.hero.has-bg .lede b{color:#fff}.hero.has-bg .lede{color:rgba(255,255,255,.8)}
+
+/* glass on hover */
+.card,.crd,.earn,.pick,.step,.stat,.chip{position:relative;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,background-color .35s,border-color .35s}
+.card::before,.crd::before,.pick::before,.step::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(135deg,rgba(255,46,114,.7),rgba(122,60,245,.7),rgba(255,196,61,.7));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .35s;pointer-events:none}
+.card:hover,.crd:hover,.pick:hover,.step:hover{transform:translateY(-6px);background:color-mix(in srgb,var(--card) 72%,transparent);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);box-shadow:0 30px 60px -28px rgba(122,60,245,.45),0 0 0 1px rgba(255,255,255,.35) inset}
+.card:hover::before,.crd:hover::before,.pick:hover::before,.step:hover::before{opacity:1}
+.chip:hover{transform:translateY(-2px);border-color:transparent;box-shadow:0 10px 24px -14px rgba(255,46,114,.6);background:color-mix(in srgb,var(--card) 70%,transparent);backdrop-filter:blur(10px)}
+.card .ic{transition:transform .35s cubic-bezier(.2,.8,.2,1),background .35s,color .35s}
+.card:hover .ic{transform:rotate(-6deg) scale(1.08);background:var(--grad-btn);color:#fff}
+.stat b{transition:transform .35s}.stat:hover b{transform:scale(1.06)}
+
+/* buttons: shine sweep + press */
+.btn{position:relative;overflow:hidden}
+.btn.primary::after,.cta .btn::after{content:"";position:absolute;top:-40%;left:-60%;width:40%;height:180%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);transition:left .6s ease}
+.btn.primary:hover::after,.cta .btn:hover::after{left:130%}
+.btn:active{transform:translateY(0) scale(.98)}
+.btn.primary{background-size:200% 200%;animation:gradshift 6s ease infinite}
+@keyframes gradshift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.gtext{background-size:200% auto;animation:shimmer 5s linear infinite}
+@keyframes shimmer{to{background-position:200% center}}
+
+/* reveal on scroll (from a visible resting state) */
+.rv{opacity:.35;transform:translateY(14px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+.rv:nth-child(2){transition-delay:.08s}.rv:nth-child(3){transition-delay:.16s}.rv:nth-child(4){transition-delay:.24s}
+
+/* creator page: floating phone + pulsing portrait ring */
+.phone{animation:float 7s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.portrait{position:relative}
+.portrait::after{content:"";position:absolute;inset:-14px;border-radius:50%;border:2px solid rgba(255,255,255,.35);animation:pulse 3s ease-out infinite}
+@keyframes pulse{0%{transform:scale(.92);opacity:.9}100%{transform:scale(1.12);opacity:0}}
+.info,.codecard,.visit{transition:transform .3s}.info:hover,.codecard:hover,.visit:hover{transform:translateX(3px)}
+.cta{position:relative;overflow:hidden}
+.cta::before{content:"";position:absolute;inset:-40%;background:conic-gradient(from 0deg,transparent 0 70%,rgba(255,255,255,.18) 80%,transparent 90%);animation:spin 14s linear infinite}
+.cta>*{position:relative}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.aurora i,.btn.primary,.gtext,.phone,.portrait::after,.cta::before{animation:none!important}.rv{opacity:1;transform:none}}
+
+/* credits */
+footer .credits{display:flex;align-items:center;gap:10px;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-left:18px;padding-left:18px;border-left:1px solid var(--line)}
+footer .credits a{display:inline-flex;align-items:center;opacity:.85;transition:opacity .2s,transform .2s}
+footer .credits a:hover{opacity:1;transform:translateY(-1px)}
+footer .credits img{height:22px;width:auto;display:block;border-radius:3px}
+footer .credits .go .dk{display:none}
+:root[data-theme="dark"] footer .credits .go .lt{display:none}:root[data-theme="dark"] footer .credits .go .dk{display:block}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) footer .credits .go .lt{display:none}:root:not([data-theme="light"]) footer .credits .go .dk{display:block}}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--block);color:#fff;padding:10px 16px;border-radius:999px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s}
 .toast.show{opacity:1}
 
@@ -253,12 +313,12 @@ const I={
 };
 const logo=`<a class="logo" href="#/"><img class="light" src="${IMG.logo}" alt="Unlimited Zone — Complete Family Wear"><img class="dark" src="${IMG.logoWhite}" alt="Unlimited Zone — Complete Family Wear"></a>`;
 const nav=()=>`<div class="nav"><div class="wrap">${logo}<div class="nav-actions"><button class="btn theme" id="themeBtn" aria-label="Switch light / dark">☀︎ / ☾</button><a class="btn ghost" href="#/" data-toast="Creator login opens here once the panel is live">Login</a><a class="btn primary" href="#/" data-apply>Join Now</a></div></div></div>`;
-const footer=()=>`<footer><div class="wrap">${logo}<span>© 2026 Unlimited Zone · A unit of Shyam Retail Stores. All rights reserved.</span><div class="links"><a href="#/">Privacy</a><a href="#/">Terms</a><a href="#/">Support</a><span class="credits">Site by <img src="${IMG.credits}" alt="Fabulous Media · GO"></span></div></div></footer>`;
+const footer=()=>`<footer><div class="wrap">${logo}<span>© 2026 Unlimited Zone · A unit of Shyam Retail Stores. All rights reserved.</span><div class="links"><a href="#/">Privacy</a><a href="#/">Terms</a><a href="#/">Support</a><span class="credits">Site by <a href="https://fabulousmedia.in" target="_blank" rel="noopener" title="Fabulous Media"><img src="${IMG.fmLogo}" alt="Fabulous Media"></a><a class="go" href="https://gocommercially.com" target="_blank" rel="noopener" title="GoCommercially"><img class="lt" src="${IMG.goLogo}" alt="GoCommercially"><img class="dk" src="${IMG.goLogoWhite}" alt=""></a></span></div></div></footer>`;
 
 const AVS=["momkids","kabir","sage","family","festivestore"];
 function landing(){
   return `${nav()}
-  <section class="hero"><div class="wrap">
+  <section class="hero${IMG.heroBg?" has-bg":""}" style="${IMG.heroBg?`background-image:url(${IMG.heroBg})`:""}"><div class="aurora"><i></i><i></i><i></i></div><div class="grain"></div><div class="wrap">
     <div class="pill">${I.star} Unlimited Zone Creator Programme · Jaipur first</div>
     <h1>Turn Your Influence Into <span class="gtext">Store Footfall.</span></h1>
     <p class="lede">Partner with Unlimited Zone — 100+ brands for men, women and kids under one roof — and get your own store code. <b>The more people shop with your code, the more you earn.</b> Every visit is tracked at the billing counter.</p>
@@ -274,23 +334,23 @@ function landing(){
   </div></section>
 
   <section><div class="wrap"><div class="stats">
-    <div class="stat"><b class="gtext">7</b><span>Stores across Haryana &amp; Rajasthan</span></div>
-    <div class="stat"><b class="gtext">100+</b><span>Brands under one roof</span></div>
-    <div class="stat"><b class="gtext">25 yrs</b><span>Family retail legacy</span></div>
-    <div class="stat"><b class="gtext">10%</b><span>Commission on tracked bills</span></div>
+    <div class="stat rv"><b class="gtext">7</b><span>Stores across Haryana &amp; Rajasthan</span></div>
+    <div class="stat rv"><b class="gtext">100+</b><span>Brands under one roof</span></div>
+    <div class="stat rv"><b class="gtext">25 yrs</b><span>Family retail legacy</span></div>
+    <div class="stat rv"><b class="gtext">10%</b><span>Commission on tracked bills</span></div>
   </div></div></section>
 
-  <section class="why"><div class="wrap">
+  <section class="why"><div class="aurora"><i></i><i></i><i></i></div><div class="grain"></div><div class="wrap">
     <h2>Why partner with <span class="gtext">Unlimited Zone</span>?</h2>
     <p class="sub">Everything you need to turn your audience into store visits — and get paid for every one of them.</p>
     <div class="cards">
-      <div class="card"><div class="ic">${I.bolt}</div><h3>Your code in a day</h3><p>Apply, get approved, and receive your store code and a page like this one within 24 hours.</p></div>
-      <div class="card"><div class="ic">${I.chart}</div><h3>Tracked at billing</h3><p>Every bill with your code is tagged at the counter. See visits, bills and what your audience buys.</p></div>
-      <div class="card"><div class="ic">${I.cash}</div><h3>Monthly payouts</h3><p>Commission on every tracked bill, paid monthly to your account. Bonuses on event weekends.</p></div>
-      <div class="card"><div class="ic">${I.people}</div><h3>A store team behind you</h3><p>A store manager as your contact, early access to new arrivals, and invites to store events.</p></div>
+      <div class="card rv"><div class="ic">${I.bolt}</div><h3>Your code in a day</h3><p>Apply, get approved, and receive your store code and a page like this one within 24 hours.</p></div>
+      <div class="card rv"><div class="ic">${I.chart}</div><h3>Tracked at billing</h3><p>Every bill with your code is tagged at the counter. See visits, bills and what your audience buys.</p></div>
+      <div class="card rv"><div class="ic">${I.cash}</div><h3>Monthly payouts</h3><p>Commission on every tracked bill, paid monthly to your account. Bonuses on event weekends.</p></div>
+      <div class="card rv"><div class="ic">${I.people}</div><h3>A store team behind you</h3><p>A store manager as your contact, early access to new arrivals, and invites to store events.</p></div>
     </div>
     <div class="creators"><div class="eyebrow">Creators shopping with us this month</div>
-      <div class="crow">${CREATORS.map(c=>`<a class="crd" href="#/creator/${c.slug}"><span class="av"><img src="${IMG[c.avatar]}" alt=""></span><span><b>${esc(c.name)}</b><span>${esc(c.type)} · ${esc(c.store)}</span></span><span class="code">${c.code}</span></a>`).join("")}</div>
+      <div class="crow">${CREATORS.map(c=>`<a class="crd rv" href="#/creator/${c.slug}"><span class="av"><img src="${IMG[c.avatar]}" alt=""></span><span><b>${esc(c.name)}</b><span>${esc(c.type)} · ${esc(c.store)}</span></span><span class="code">${c.code}</span></a>`).join("")}</div>
     </div>
   </div></section>
 
@@ -335,15 +395,15 @@ function creatorPage(c){
 
   <section class="sec"><div class="wrap">
     <h2>What I'm picking up</h2><p class="sub">${esc(c.name.split(" ")[0])}'s edit from the ${esc(c.store)} store this weekend.</p>
-    <div class="picks3">${c.picks.map(([k,t,d])=>`<div class="pick"><div class="ph"><div class="bg" style="background-image:url(${IMG[k]})"></div><img src="${IMG[k]}" alt="${esc(t)}"></div><div class="bd"><b>${esc(t)}</b><span>${esc(d)}</span></div></div>`).join("")}</div>
+    <div class="picks3">${c.picks.map(([k,t,d])=>`<div class="pick rv"><div class="ph"><div class="bg" style="background-image:url(${IMG[k]})"></div><img src="${IMG[k]}" alt="${esc(t)}"></div><div class="bd"><b>${esc(t)}</b><span>${esc(d)}</span></div></div>`).join("")}</div>
   </div></section>
 
   <section class="sec" style="padding-top:0"><div class="wrap">
     <h2>How my code works</h2><p class="sub">Three steps. The more people use it, the more I earn — and the better the offer gets.</p>
     <div class="steps">
-      <div class="step"><div class="n">1</div><h3>Visit Unlimited Zone ${esc(c.store)}</h3><p>Any day — or come ${esc(c.day)} from ${esc(c.time)} to shop with me.</p></div>
-      <div class="step"><div class="n">2</div><h3>Show ${c.code} at billing</h3><p>The counter tags your bill with my code and applies the store-only offer.</p></div>
-      <div class="step"><div class="n">3</div><h3>Tag me in your haul</h3><p>Post your finds with #UnlimitedZone${esc(c.store)} — I share the best ones.</p></div>
+      <div class="step rv"><div class="n">1</div><h3>Visit Unlimited Zone ${esc(c.store)}</h3><p>Any day — or come ${esc(c.day)} from ${esc(c.time)} to shop with me.</p></div>
+      <div class="step rv"><div class="n">2</div><h3>Show ${c.code} at billing</h3><p>The counter tags your bill with my code and applies the store-only offer.</p></div>
+      <div class="step rv"><div class="n">3</div><h3>Tag me in your haul</h3><p>Post your finds with #UnlimitedZone${esc(c.store)} — I share the best ones.</p></div>
     </div>
   </div></section>
 
@@ -364,6 +424,9 @@ function render(){
   $("#app").innerHTML=c?creatorPage(c):landing();
   document.title=c?`${c.name} × Unlimited Zone`:"Unlimited Zone Creator Panel";
   window.scrollTo(0,0);
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}})},{threshold:.15});
+  document.querySelectorAll(".rv").forEach(el=>io.observe(el));
+  document.querySelectorAll(".stat b").forEach(b=>{const m=b.textContent.match(/^(\d+)(.*)$/); if(!m) return; const n=+m[1], suf=m[2]; let t0=null; const step=(t)=>{if(!t0)t0=t; const k=Math.min(1,(t-t0)/900); b.textContent=Math.round(n*(1-Math.pow(1-k,3)))+suf; if(k<1) requestAnimationFrame(step);}; requestAnimationFrame(step);});
 }
 function applyTheme(t){ if(t) document.documentElement.setAttribute("data-theme",t); else document.documentElement.removeAttribute("data-theme"); }
 try{ applyTheme(localStorage.getItem("uz-theme")); }catch(_){}
