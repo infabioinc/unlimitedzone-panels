@@ -236,6 +236,25 @@ footer .logo img{height:26px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.aurora i,.btn.primary,.gtext,.phone,.portrait::after,.cta::before{animation:none!important}.rv{opacity:1;transform:none}}
 
+/* matte glassmorphism — boxes at rest */
+:root{--glass:rgba(255,255,255,.42);--glass-2:rgba(255,255,255,.62);--glass-line:rgba(255,255,255,.75);--glass-edge:rgba(22,21,29,.06)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--glass:rgba(255,255,255,.055);--glass-2:rgba(255,255,255,.09);--glass-line:rgba(255,255,255,.14);--glass-edge:rgba(0,0,0,.35)}}
+:root[data-theme="dark"]{--glass:rgba(255,255,255,.055);--glass-2:rgba(255,255,255,.09);--glass-line:rgba(255,255,255,.14);--glass-edge:rgba(0,0,0,.35)}
+.card,.crd,.earn,.pick,.step,.visit,.storecard,.phone,.modal .box{
+  background:var(--glass);
+  -webkit-backdrop-filter:blur(22px) saturate(1.15);backdrop-filter:blur(22px) saturate(1.15);
+  border:1px solid var(--glass-edge);
+  box-shadow:inset 0 1px 0 var(--glass-line),inset 0 0 0 1px rgba(255,255,255,.08),0 18px 40px -24px rgba(22,21,29,.35);
+}
+.card::after,.crd::after,.earn::after,.pick::after,.step::after,.visit::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:.35;mix-blend-mode:soft-light;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.card,.crd,.earn,.pick,.step,.visit{position:relative;overflow:hidden}
+.card>*,.crd>*,.pick>*,.step>*,.visit>*{position:relative;z-index:1}
+.earn div{border-right-color:var(--glass-edge)}
+.card:hover,.crd:hover,.pick:hover,.step:hover{background:var(--glass-2);backdrop-filter:blur(26px) saturate(1.3);-webkit-backdrop-filter:blur(26px) saturate(1.3)}
+.sec{position:relative;isolation:isolate}
+.sec .wrap{position:relative;z-index:1}
+.phone .body{position:relative;z-index:1}
+
 /* site credit — official Fabulous Media / GoCommercially block */
 footer .poweredBy{margin-left:18px}
 .poweredBy{display:flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid rgba(255,255,255,.2);border-radius:10px;width:fit-content;background:rgba(255,255,255,.03);backdrop-filter:blur(10px)}
@@ -396,7 +415,7 @@ function creatorPage(c){
     </div>
   </div></section>
 
-  <section class="sec"><div class="wrap">
+  <section class="sec"><div class="aurora"><i></i><i></i><i></i></div><div class="wrap">
     <h2>What I'm picking up</h2><p class="sub">${esc(c.name.split(" ")[0])}'s edit from the ${esc(c.store)} store this weekend.</p>
     <div class="picks3">${c.picks.map(([k,t,d])=>`<div class="pick rv"><div class="ph"><div class="bg" style="background-image:url(${IMG[k]})"></div><img src="${IMG[k]}" alt="${esc(t)}"></div><div class="bd"><b>${esc(t)}</b><span>${esc(d)}</span></div></div>`).join("")}</div>
   </div></section>
